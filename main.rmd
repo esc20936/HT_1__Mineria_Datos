@@ -1,0 +1,25 @@
+---
+title: "Hoja de trabajo 1"
+author: "Grupo 12"
+date: "27/01/2022"
+output: html_document
+---
+
+## Analisis Exploratorio
+
+### 1. Carga de datos
+```{r}
+movies <- read.csv("movies.csv")
+```
+
+<!-- PRUEBAS de normalidad -->
+
+<!-- Kolgomorov-Smirnov -->
+<!-- Lillierfors -->
+
+Lo primero que haremos sera realizar un analisis exploratorio de los datos, para esto utilizaremos la funcion summary() para obtener un resumen de los datos, y la funcion str() para obtener la estructura de los datos.
+
+### 2. Resumen de los datos
+```{r}
+
+```
