@@ -48,3 +48,18 @@ barplot(moviesByYear, main = "Películas por año", xlab = "Año", ylab = "Pelí
 
 ```
 
+
+
+
+¿Cómo se correlacionan las calificaciones con el éxito comercial? 
+```{r}
+cor(movies$voteAvg, movies$revenue)
+```
+
+Como podemos observar, la correlación entre las calificaciones y el éxito comercial es muy baja, por lo que podemos concluir que no existe una relación entre ambas variables.
+Esto es debido a que para que exista una correlación entre dos variables, el valor de la correlación debe ser cercano a 1 o -1, y en este caso, el valor de la correlación es 0.19, lo que indica que no existe una relación entre ambas variables.
+
+¿A qué género principal pertenecen las películas más largas? 
+```{r}
+movies[order(movies$runtime, decreasing = TRUE),c("runtime","genres")][1,]
+```
