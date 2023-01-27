@@ -12,14 +12,39 @@ output: html_document
 movies <- read.csv("movies.csv")
 ```
 
-<!-- PRUEBAS de normalidad -->
 
-<!-- Kolgomorov-Smirnov -->
-<!-- Lillierfors -->
-
-Lo primero que haremos sera realizar un analisis exploratorio de los datos, para esto utilizaremos la funcion summary() para obtener un resumen de los datos, y la funcion str() para obtener la estructura de los datos.
-
-### 2. Resumen de los datos
+## Responda las siguientes preguntas:
+¿Cuáles son las 10 películas que contaron con más presupuesto?
 ```{r}
+movies[order(movies$budget, decreasing = TRUE),c("budget","title")][1:10,]
+```
+
+¿Cuáles son las 10 películas que más ingresos tuvieron? 
+```{r}
+movies[order(movies$revenue, decreasing = TRUE),c("revenue","title")][1:10,]
+```
+
+¿Cuál es la película que más votos tuvo? 
+```{r}
+movies[order(movies$voteCount, decreasing = TRUE),c("voteCount","title")][1,]
+```
+
+¿Cuál es la peor película de acuerdo a los votos de todos los usuarios? 
+```{r}
+movies[order(movies$voteAvg, decreasing = FALSE),c("voteAvg","title")][1,]
+```
+
+¿Cuántas  películas  se  hicieron  en  cada  año?  ¿En  qué  año  se  hicieron  más 
+películas? Haga un gráfico de barras 
+```{r}
+movies$releaseDate <- as.Date(movies$releaseDate)
+movies$year <- format(movies$releaseDate, "%Y")
+movies$year <- as.numeric(movies$year)
+movies$year <- as.factor(movies$year)
+
+moviesByYear <- table(movies$year)
+
+barplot(moviesByYear, main = "Películas por año", xlab = "Año", ylab = "Películas", col = "blue")
 
 ```
+
