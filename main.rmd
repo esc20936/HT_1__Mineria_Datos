@@ -12,6 +12,10 @@ output: html_document
 movies <- read.csv("movies.csv")
 ```
 
+# Haga una exploración rápida de sus datos, para eso haga un resumen de su conjunto de datos. 
+``` {r}
+summary(movies)
+```
 
 ## Responda las siguientes preguntas:
 ¿Cuáles son las 10 películas que contaron con más presupuesto?
