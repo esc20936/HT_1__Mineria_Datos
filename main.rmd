@@ -67,3 +67,48 @@ Esto es debido a que para que exista una correlación entre dos variables, el va
 ```{r}
 movies[order(movies$runtime, decreasing = TRUE),c("runtime","genres")][1,]
 ```
+
+
+## Preguntas extras
+
+#### ¿A que genero pertenecen la pelicula con mejor calificacion? 
+```{r}
+movies[order(movies$voteAvg, decreasing = TRUE),c("voteAvg","genres","title")][1,]
+```
+
+La pelicula con mejor calificacion es "Hot Naked Sex & the City", y pertenece al genero "Comedia"
+
+#### ¿Cuál es la pelicula con mayor cantidad de actores? 
+```{r}
+movies[order(movies$actorsAmount, decreasing = TRUE),c("actorsAmount","title")][1,]
+```
+
+La pelicula con mayor cantidad de actores es "Phantastische Harry Potter Momente - Das gro\xdfe SAT.1 Spezial"
+
+#### ¿Existe una relación entre el presupuesto y las ganancias?
+```{r}
+cor(movies$budget, movies$revenue)
+```
+Es muy interesante observar que existe una relación entre el presupuesto y las ganancias, ya que el valor de la correlación es 0.73, lo que indica que existe una relación positiva entre ambas variables.
+Al ser casi 1, podemos concluir que existe una relación muy fuerte entre ambas variables, ya que mientras el presupuesto sea mayor, las ganancias también lo serán.
+
+#### ¿Cuales son las 10 peliculas con más ganancias?
+
+<!-- get the 10 movies with bigger revenue -->
+```{r}
+movies[order(movies$revenue, decreasing = TRUE),c("revenue","title")][1:10,]
+```
+
+#### ¿Cual es la pelicula con más mujeres en el reparto?
+```{r}
+# convert to int the castWomenAmount column
+movies$castWomenAmount <- suppressWarnings( as.numeric(movies$castWomenAmount))
+movies[order(movies$castWomenAmount, decreasing = TRUE),c("castWomenAmount","title")][1,]
+```
+
+#### ¿Como se comporta el tiempo promedio de las peliculas por año?
+```{r}
+moviesByYear <- aggregate(movies$runtime, by = list(movies$year), FUN = mean)
+plot(moviesByYear, type = "l", main = "Tiempo promedio de peliculas por año", xlab = "Year", ylab = "Average runtime of movies")
+```
+
