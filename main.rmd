@@ -1,6 +1,6 @@
 ---
 title: "Hoja de trabajo 1"
-author: "Grupo 12"
+author: "Grupo 9"
 date: "27/01/2022"
 output: html_document
 ---
@@ -38,7 +38,7 @@ j<-ggplot(data.frame(x = id, y = density)) +
   geom_point() + 
   labs(x = "Variable id", y = "Densidad")
 
-#para la variable budget
+
 datos[,'budget']
 budget<-datos[,'budget']
 density <- dnorm(budget)
@@ -48,7 +48,7 @@ a<-ggplot(data.frame(x = budget, y = density)) +
   geom_point() + 
   labs(x = "Variable budget", y = "Densidad")
 
-#para la variable runtime
+
 datos[,'runtime']
 runtime<-datos[,'runtime']
 density <- dnorm(runtime)
@@ -58,7 +58,7 @@ b<-ggplot(data.frame(x = runtime, y = density)) +
   geom_point() + 
   labs(x = "Variable runtime", y = "Densidad")
 
-#para la variable popularity
+
 datos[,'popularity']
 popularity<-datos[,'popularity']
 density <- dnorm(popularity)
@@ -68,7 +68,7 @@ c<-ggplot(data.frame(x = popularity, y = density)) +
   geom_point() + 
   labs(x = "Variable popularity", y = "Densidad")
 
-#para la variable voteAvg
+
 datos[,'voteAvg']
 voteAvg<-datos[,'voteAvg']
 density <- dnorm(voteAvg)
@@ -78,7 +78,7 @@ d<-ggplot(data.frame(x = voteAvg, y = density)) +
   geom_point() + 
   labs(x = "Variable voteAvg", y = "Densidad")
 
-#para la variable voteCount
+
 datos[,'voteCount']
 voteCount<-datos[,'voteCount']
 density <- dnorm(voteCount)
@@ -98,7 +98,7 @@ f<-ggplot(data.frame(x = genresAmount, y = density)) +
   geom_point() + 
   labs(x = "Variable genresAmount", y = "Densidad")
 
-#para la variable productionCoAmount
+
 datos[,'productionCoAmount']
 productionCoAmount<-datos[,'productionCoAmount']
 density <- dnorm(productionCoAmount)
@@ -108,7 +108,7 @@ g<-ggplot(data.frame(x = productionCoAmount, y = density)) +
   geom_point() + 
   labs(x = "Variable productionCoAmount", y = "Densidad")
 
-#para la variable productionCountriesAmount
+
 datos[,'productionCountriesAmount']
 productionCountriesAmount<-datos[,'productionCountriesAmount']
 density <- dnorm(productionCountriesAmount)
@@ -118,7 +118,7 @@ h<-ggplot(data.frame(x = productionCountriesAmount, y = density)) +
   geom_point() + 
   labs(x = "Variable productionCountriesAmount", y = "Densidad")
   
-#para la variable actorsAmount
+
 datos[,'actorsAmount']
 actorsAmount<-datos[,'actorsAmount']
 density <- dnorm(actorsAmount)
@@ -129,27 +129,26 @@ i<-ggplot(data.frame(x = actorsAmount, y = density)) +
   labs(x = "Variable actorsAmount", y = "Densidad")
 ```
 
-<!-- # ```{r}
-# #Distribucion para la variable ID
-# j 
-# #Distribucion para la variable BUDGET
-# a
-# #Distribucion para la variable RUNTIME
-# b
-# #Distribucion para la variable POPULARITY
-# c
-# #Distribucion para la variable VOTEAVG
-# d
-# #Distribucion para la variable VOTECOUNT
-# e
-# #Distribucion para la variable GENRESAMOUNT
-# f
-# #Distribucion para la variable PRODUCTIONAMOUNT
-# g
-# #Distribucion para la variable PRODUCTION_COUNTRY_AMOUNT
-# h
-# #Distribucion para la variable ACTORS_AMOUNT
-# i -->
+#Distribucion para la variable ID
+j 
+#Distribucion para la variable BUDGET
+a
+#Distribucion para la variable RUNTIME
+b
+#Distribucion para la variable POPULARITY
+c
+#Distribucion para la variable VOTEAVG
+d
+#Distribucion para la variable VOTECOUNT
+e
+#Distribucion para la variable GENRESAMOUNT
+f
+#Distribucion para la variable PRODUCTIONAMOUNT
+g
+#Distribucion para la variable PRODUCTION_COUNTRY_AMOUNT
+h
+#Distribucion para la variable ACTORS_AMOUNT
+i
 
 
 ## Responda las siguientes preguntas:
@@ -207,7 +206,7 @@ genres <- genres[order(genres$count, decreasing = TRUE),]
 barplot(genres$count[1:20], main = "Géneros de las 20 películas más recientes", xlab = "", ylab = "Películas", col = "blue", las = 2, names.arg = genres$genre[1:20])
 ```
 
-Cuál es el género principal que predomina en el conjunto de datos?
+# Cuál es el género principal que predomina en el conjunto de datos?
 ```{r}
 # separete the genres of each movie and count the number of times each genre appears
 genres <- strsplit(movies$genres, "[|]")
@@ -226,7 +225,7 @@ barplot(genres$count[1:20], main = "Géneros del dataset", xlab = "", ylab = "Pe
 
 ```
 
-Las películas de qué genero principal obtuvieron mayores ganancias? 
+# Las películas de qué genero principal obtuvieron mayores ganancias? 
 ```{r}
 # graph the top 20 genres by revenue, the genre should be on the x axis and the revenue on the y axis
 barplot(movies$revenue[1:20], main = "Géneros de las 20 películas más recientes", xlab = "", ylab = "Películas", col = "blue", las = 2, names.arg = genres$genre[1:20])
@@ -234,7 +233,7 @@ barplot(movies$revenue[1:20], main = "Géneros de las 20 películas más recient
 
 ```
 
-La cantidad de actores influye en los ingresos de las películas?
+# La cantidad de actores influye en los ingresos de las películas?
 ```{r}
 cor(movies$actorsAmount, movies$revenue)
 ```
@@ -346,14 +345,14 @@ movies[order(movies$runtime, decreasing = TRUE),c("runtime","genres")][1,]
 movies[order(movies$voteAvg, decreasing = TRUE),c("voteAvg","genres","title")][1,]
 ```
 
-La pelicula con mejor calificacion es "Hot Naked Sex & the City", y pertenece al genero "Comedia"
+# La pelicula con mejor calificacion es "Hot Naked Sex & the City", y pertenece al genero "Comedia"
 
 ####  Cuál es la pelicula con mayor cantidad de actores? 
 ```{r}
 movies[order(movies$actorsAmount, decreasing = TRUE),c("actorsAmount","title")][1,]
 ```
 
-La pelicula con mayor cantidad de actores es "Phantastische Harry Potter Momente - Das gro\xdfe SAT.1 Spezial"
+# La pelicula con mayor cantidad de actores es "Phantastische Harry Potter Momente - Das gro\xdfe SAT.1 Spezial"
 
 ####  Existe una relación entre el presupuesto y las ganancias?
 ```{r}
@@ -376,9 +375,12 @@ movies$castWomenAmount <- suppressWarnings( as.numeric(movies$castWomenAmount))
 movies[order(movies$castWomenAmount, decreasing = TRUE),c("castWomenAmount","title")][1,]
 ```
 
+
+
 ####  Como se comporta el tiempo promedio de las peliculas por año?
 ```{r}
 moviesByYear <- aggregate(movies$runtime, by = list(movies$year), FUN = mean)
 plot(moviesByYear, type = "l", main = "Tiempo promedio de peliculas por año", xlab = "Year", ylab = "Average runtime of movies")
 ```
+
 
