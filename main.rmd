@@ -10,6 +10,7 @@ output: html_document
 ### 1. Carga de datos
 ```{r}
 movies <- read.csv("movies.csv")
+datos <- read.csv("movies.csv")
 ```
 
 #1. Haga una exploración rápida de sus datos, para eso haga un resumen de su conjunto de datos. 
@@ -128,51 +129,51 @@ i<-ggplot(data.frame(x = actorsAmount, y = density)) +
   labs(x = "Variable actorsAmount", y = "Densidad")
 ```
 
-```{r}
-#Distribucion para la variable ID
-j 
-#Distribucion para la variable BUDGET
-a
-#Distribucion para la variable RUNTIME
-b
-#Distribucion para la variable POPULARITY
-c
-#Distribucion para la variable VOTEAVG
-d
-#Distribucion para la variable VOTECOUNT
-e
-#Distribucion para la variable GENRESAMOUNT
-f
-#Distribucion para la variable PRODUCTIONAMOUNT
-g
-#Distribucion para la variable PRODUCTION_COUNTRY_AMOUNT
-h
-#Distribucion para la variable ACTORS_AMOUNT
-i
+<!-- # ```{r}
+# #Distribucion para la variable ID
+# j 
+# #Distribucion para la variable BUDGET
+# a
+# #Distribucion para la variable RUNTIME
+# b
+# #Distribucion para la variable POPULARITY
+# c
+# #Distribucion para la variable VOTEAVG
+# d
+# #Distribucion para la variable VOTECOUNT
+# e
+# #Distribucion para la variable GENRESAMOUNT
+# f
+# #Distribucion para la variable PRODUCTIONAMOUNT
+# g
+# #Distribucion para la variable PRODUCTION_COUNTRY_AMOUNT
+# h
+# #Distribucion para la variable ACTORS_AMOUNT
+# i -->
 
 
 ## Responda las siguientes preguntas:
-¿Cuáles son las 10 películas que contaron con más presupuesto?
+Cuáles son las 10 películas que contaron con más presupuesto?
 ```{r}
 movies[order(movies$budget, decreasing = TRUE),c("budget","title")][1:10,]
 ```
 
-¿Cuáles son las 10 películas que más ingresos tuvieron? 
+Cuáles son las 10 películas que más ingresos tuvieron? 
 ```{r}
 movies[order(movies$revenue, decreasing = TRUE),c("revenue","title")][1:10,]
 ```
 
-¿Cuál es la película que más votos tuvo? 
+Cuál es la película que más votos tuvo? 
 ```{r}
 movies[order(movies$voteCount, decreasing = TRUE),c("voteCount","title")][1,]
 ```
 
-¿Cuál es la peor película de acuerdo a los votos de todos los usuarios? 
+Cuál es la peor película de acuerdo a los votos de todos los usuarios? 
 ```{r}
 movies[order(movies$voteAvg, decreasing = FALSE),c("voteAvg","title")][1,]
 ```
 
-¿Cuántas  películas  se  hicieron  en  cada  año?  ¿En  qué  año  se  hicieron  más 
+ Cuántas  películas  se  hicieron  en  cada  año?   En  qué  año  se  hicieron  más 
 películas? Haga un gráfico de barras 
 ```{r}
 movies$releaseDate <- as.Date(movies$releaseDate)
@@ -186,10 +187,145 @@ barplot(moviesByYear, main = "Películas por año", xlab = "Año", ylab = "Pelí
 
 ```
 
+¿Cuál es el género principal de las 20 películas más recientes? 
+```{r}
+a <- movies[order(movies$releaseDate, decreasing = TRUE),c("releaseDate","title","genres")][1:20,]
+
+# separete the genres of each movie and count the number of times each genre appears
+genres <- strsplit(a$genres, "[|]")
+genres <- unlist(genres)
+genres <- table(genres)
+
+# create a data frame with the genres and the number of times they appear
+genres <- data.frame(genres)
+colnames(genres) <- c("genre", "count")
+
+# sort the data frame by the number of times each genre appears
+genres <- genres[order(genres$count, decreasing = TRUE),]
+
+# plot the top 20 genres, the genre should be on the x axis and the count on the y axis
+barplot(genres$count[1:20], main = "Géneros de las 20 películas más recientes", xlab = "", ylab = "Películas", col = "blue", las = 2, names.arg = genres$genre[1:20])
+```
+
+Cuál es el género principal que predomina en el conjunto de datos?
+```{r}
+# separete the genres of each movie and count the number of times each genre appears
+genres <- strsplit(movies$genres, "[|]")
+genres <- unlist(genres)
+genres <- table(genres)
+
+# create a data frame with the genres and the number of times they appear
+genres <- data.frame(genres)
+colnames(genres) <- c("genre", "count")
+
+# sort the data frame by the number of times each genre appears
+genres <- genres[order(genres$count, decreasing = TRUE),]
+
+# plot the top 20 genres, the genre should be on the x axis and the count on the y axis
+barplot(genres$count[1:20], main = "Géneros del dataset", xlab = "", ylab = "Películas", col = "blue", las = 2, names.arg = genres$genre[1:20])
+
+```
+
+Las películas de qué genero principal obtuvieron mayores ganancias? 
+```{r}
+# graph the top 20 genres by revenue, the genre should be on the x axis and the revenue on the y axis
+barplot(movies$revenue[1:20], main = "Géneros de las 20 películas más recientes", xlab = "", ylab = "Películas", col = "blue", las = 2, names.arg = genres$genre[1:20])
+
+
+```
+
+La cantidad de actores influye en los ingresos de las películas?
+```{r}
+cor(movies$actorsAmount, movies$revenue)
+```
+
+Como podemos observar, la correlación entre la cantidad de actores y el éxito comercial es muy baja, por lo que podemos concluir que no existe una relación entre ambas variables.
+
+
+se han hecho películas con más actores en los últimos años?
+```{r}
+#  extract the year from the release date
+movies$releaseDate <- as.Date(movies$releaseDate)
+movies$year <- format(movies$releaseDate, "%Y")
+movies$year <- as.numeric(movies$year)
+movies$year <- as.factor(movies$year)
+
+# create a data frame with the year and the number of actors
+actorsByYear <- data.frame(movies$year, movies$actorsAmount)
+
+# group the data frame by year and calculate the mean of the number of actors
+actorsByYear <- aggregate(actorsByYear$movies.actorsAmount, by = list(actorsByYear$movies.year), FUN = mean)
+
+# plot the mean number of actors by year using a bar plot
+barplot(actorsByYear$x, main = "Promedio de actores por año", xlab = "Año", ylab = "Promedio de actores", col = "blue", las = 2, names.arg = actorsByYear$Group.1)
+
+```
+
+Es posible que la cantidad de hombres y mujeres en el  reparto influya en la 
+popularidad y los ingresos de las películas? 
+```{r}
+
+
+cor(movies$actorsAmount, movies$popularity)
+
+cor(movies$actorsAmount, movies$revenue)
+
+```
+
+como podemos observar, la correlación entre la cantidad de actores y el éxito comercial es muy baja, por lo que podemos concluir que no existe una relación entre ambas variables.
+
+Quiénes son los directores que hicieron las 20 películas mejor 
+calificadas? 
+```{r}
+movies[order(movies$voteAvg, decreasing = TRUE),c("voteAvg","director")][1:20,]
+```
+
+Se asocian ciertos meses de lanzamiento con mejores ingresos? 
+```{r}
+movies$releaseDate <- as.Date(movies$releaseDate)
+movies$month <- format(movies$releaseDate, "%m")
+movies$month <- as.numeric(movies$month)
+movies$month <- as.factor(movies$month)
+
+revenueByMonth <- data.frame(movies$month, movies$revenue)
+
+revenueByMonth <- aggregate(revenueByMonth$movies.revenue, by = list(revenueByMonth$movies.month), FUN = mean)
+
+barplot(revenueByMonth$x, main = "Promedio de ingresos por mes", xlab = "Mes", ylab = "Promedio de ingresos", col = "blue", las = 2, names.arg = revenueByMonth$Group.1)
+
+```
+
+
+En qué meses se han visto los lanzamientos con mejores ingresos?
+
+```{r}
+
+movies$releaseDate <- as.Date(movies$releaseDate)
+movies$month <- format(movies$releaseDate, "%m")
+movies$month <- as.numeric(movies$month)
+movies$month <- as.factor(movies$month)
+
+revenueByMonth <- data.frame(movies$month, movies$revenue)
+
+revenueByMonth <- aggregate(revenueByMonth$movies.revenue, by = list(revenueByMonth$movies.month), FUN = mean)
+
+barplot(revenueByMonth$x, main = "Promedio de ingresos por mes", xlab = "Mes", ylab = "Promedio de ingresos", col = "blue", las = 2, names.arg = revenueByMonth$Group.1)
+```
+
+
+cuantas películas, en promedio, se han lanzado por mes?
+```{r}
+moviesPerMonth <- aggregate(movies$month, by = list(movies$month), FUN = length)
+moviesPerMonth <- moviesPerMonth[order(moviesPerMonth$x, decreasing = TRUE),]
+
+
+barplot(moviesPerMonth$x, main = "Promedio de películas por mes", xlab = "Mes", ylab = "Promedio de películas", col = "blue", las = 2, names.arg = moviesPerMonth$Group.1)
+
+```
 
 
 
-¿Cómo se correlacionan las calificaciones con el éxito comercial? 
+ Cómo se correlacionan las calificaciones con el éxito comercial? 
 ```{r}
 cor(movies$voteAvg, movies$revenue)
 ```
@@ -197,7 +333,7 @@ cor(movies$voteAvg, movies$revenue)
 Como podemos observar, la correlación entre las calificaciones y el éxito comercial es muy baja, por lo que podemos concluir que no existe una relación entre ambas variables.
 Esto es debido a que para que exista una correlación entre dos variables, el valor de la correlación debe ser cercano a 1 o -1, y en este caso, el valor de la correlación es 0.19, lo que indica que no existe una relación entre ambas variables.
 
-¿A qué género principal pertenecen las películas más largas? 
+ A qué género principal pertenecen las películas más largas? 
 ```{r}
 movies[order(movies$runtime, decreasing = TRUE),c("runtime","genres")][1,]
 ```
@@ -205,42 +341,42 @@ movies[order(movies$runtime, decreasing = TRUE),c("runtime","genres")][1,]
 
 ## Preguntas extras
 
-#### ¿A que genero pertenecen la pelicula con mejor calificacion? 
+####  A que genero pertenecen la pelicula con mejor calificacion? 
 ```{r}
 movies[order(movies$voteAvg, decreasing = TRUE),c("voteAvg","genres","title")][1,]
 ```
 
 La pelicula con mejor calificacion es "Hot Naked Sex & the City", y pertenece al genero "Comedia"
 
-#### ¿Cuál es la pelicula con mayor cantidad de actores? 
+####  Cuál es la pelicula con mayor cantidad de actores? 
 ```{r}
 movies[order(movies$actorsAmount, decreasing = TRUE),c("actorsAmount","title")][1,]
 ```
 
 La pelicula con mayor cantidad de actores es "Phantastische Harry Potter Momente - Das gro\xdfe SAT.1 Spezial"
 
-#### ¿Existe una relación entre el presupuesto y las ganancias?
+####  Existe una relación entre el presupuesto y las ganancias?
 ```{r}
 cor(movies$budget, movies$revenue)
 ```
 Es muy interesante observar que existe una relación entre el presupuesto y las ganancias, ya que el valor de la correlación es 0.73, lo que indica que existe una relación positiva entre ambas variables.
 Al ser casi 1, podemos concluir que existe una relación muy fuerte entre ambas variables, ya que mientras el presupuesto sea mayor, las ganancias también lo serán.
 
-#### ¿Cuales son las 10 peliculas con más ganancias?
+####  Cuales son las 10 peliculas con más ganancias?
 
 <!-- get the 10 movies with bigger revenue -->
 ```{r}
 movies[order(movies$revenue, decreasing = TRUE),c("revenue","title")][1:10,]
 ```
 
-#### ¿Cual es la pelicula con más mujeres en el reparto?
+####  Cual es la pelicula con más mujeres en el reparto?
 ```{r}
 # convert to int the castWomenAmount column
 movies$castWomenAmount <- suppressWarnings( as.numeric(movies$castWomenAmount))
 movies[order(movies$castWomenAmount, decreasing = TRUE),c("castWomenAmount","title")][1,]
 ```
 
-#### ¿Como se comporta el tiempo promedio de las peliculas por año?
+####  Como se comporta el tiempo promedio de las peliculas por año?
 ```{r}
 moviesByYear <- aggregate(movies$runtime, by = list(movies$year), FUN = mean)
 plot(moviesByYear, type = "l", main = "Tiempo promedio de peliculas por año", xlab = "Year", ylab = "Average runtime of movies")
